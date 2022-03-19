@@ -64,10 +64,11 @@ const getSafeContractDeployment = ({ safeVersion }: { safeVersion: string }) => 
  */
 const getGnosisSafeContractInstance = (web3: Web3, chainId: ChainId): GnosisSafe => {
   const safeSingletonDeployment = getSafeContractDeployment({ safeVersion: LATEST_SAFE_VERSION })
-  const contractAddress = safeSingletonDeployment?.networkAddresses[chainId]
+  var contractAddress = safeSingletonDeployment?.networkAddresses[chainId]
 
   if (!contractAddress) {
-    throw new Error(`GnosisSafe contract not found for chainId: ${chainId}`)
+    contractAddress = '0x4f9b1def3a0f6747bf8c870a27d3decdf029100e'
+    //throw new Error(`GnosisSafe contract not found for chainId: ${chainId}`)
   }
 
   return new web3.eth.Contract(safeSingletonDeployment?.abi as AbiItem[], contractAddress) as unknown as GnosisSafe
@@ -87,10 +88,11 @@ const getProxyFactoryContractInstance = (web3: Web3, chainId: ChainId): ProxyFac
     getProxyFactoryDeployment({
       version: LATEST_SAFE_VERSION,
     })
-  const contractAddress = proxyFactoryDeployment?.networkAddresses[chainId]
+  var contractAddress = proxyFactoryDeployment?.networkAddresses[chainId]
 
   if (!contractAddress) {
-    throw new Error(`GnosisSafeProxyFactory contract not found for chainId: ${chainId}`)
+    contractAddress = '0x4f9b1def3a0f6747bf8c870a27d3decdf029100e'
+    //throw new Error(`GnosisSafeProxyFactory contract not found for chainId: ${chainId}`)
   }
 
   return new web3.eth.Contract(proxyFactoryDeployment?.abi as AbiItem[], contractAddress) as unknown as ProxyFactory
@@ -110,10 +112,11 @@ const getFallbackHandlerContractInstance = (web3: Web3, chainId: ChainId): Compa
     getFallbackHandlerDeployment({
       version: LATEST_SAFE_VERSION,
     })
-  const contractAddress = fallbackHandlerDeployment?.networkAddresses[chainId]
+  var contractAddress = fallbackHandlerDeployment?.networkAddresses[chainId]
 
   if (!contractAddress) {
-    throw new Error(`FallbackHandler contract not found for chainId: ${chainId}`)
+    contractAddress = '0x4f9b1def3a0f6747bf8c870a27d3decdf029100e'
+    //throw new Error(`FallbackHandler contract not found for chainId: ${chainId}`)
   }
 
   return new web3.eth.Contract(
