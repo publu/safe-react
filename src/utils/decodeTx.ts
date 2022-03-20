@@ -9,7 +9,8 @@ export const fetchTxDecoder = async (encodedData: string): Promise<DecodedDataRe
   }
 
   try {
-    return await getDecodedData(GATEWAY_URL, _getChainId(), encodedData)
+    console.log('fetchTxDecoder')
+    return await getDecodedData(GATEWAY_URL, '137', encodedData)
   } catch (error) {
     return null
   }

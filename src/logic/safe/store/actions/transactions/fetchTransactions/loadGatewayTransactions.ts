@@ -44,7 +44,8 @@ export const loadPagedHistoryTransactions = async (
 export const loadHistoryTransactions = async (safeAddress: string): Promise<HistoryGatewayResponse['results']> => {
   const chainId = _getChainId()
   try {
-    const { results, next, previous } = await getTransactionHistory(GATEWAY_URL, chainId, checksumAddress(safeAddress))
+  console.log('loadHistoryTransactions')
+  const { results, next, previous } = await getTransactionHistory(GATEWAY_URL, chainId, checksumAddress(safeAddress))
 
     if (!historyPointers[chainId]) {
       historyPointers[chainId] = {}

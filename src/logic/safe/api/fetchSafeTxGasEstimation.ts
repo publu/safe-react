@@ -17,10 +17,12 @@ export const fetchSafeTxGasEstimation = async ({
   safeAddress,
   ...body
 }: FetchSafeTxGasEstimationProps): Promise<SafeTransactionEstimation> => {
+  console.log('fetchSafeTxGasEstimation')
   return postSafeGasEstimation(GATEWAY_URL, _getChainId(), checksumAddress(safeAddress), body)
 }
 
 export const getRecommendedNonce = async (safeAddress: string): Promise<number> => {
+  console.log('getRecommendedNonce')
   const { recommendedNonce } = await fetchSafeTxGasEstimation({
     safeAddress,
     value: '0',

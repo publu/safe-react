@@ -102,7 +102,9 @@ const AppFrame = ({ appUrl }: Props): ReactElement => {
   const [, setAppLoadError] = useState<boolean>(false)
   const { thirdPartyCookiesDisabled, setThirdPartyCookiesDisabled } = useThirdPartyCookies()
 
-  const safeAppsRpc = getSafeAppsRpcServiceUrl()
+  let safeAppsRpc = getSafeAppsRpcServiceUrl()
+  console.log({ safeAppsRpc, web3HttpProviderOptions })
+  if (safeAppsRpc === 'https://polygon-mainnet.infura.io/v3/') safeAppsRpc = "https://polygon-mainnet.infura.io/v3/bf49eb84051144d6a4a31ec84737c354";
   const safeAppWeb3Provider = useMemo(
     () => new Web3.providers.HttpProvider(safeAppsRpc, web3HttpProviderOptions),
     [safeAppsRpc],
