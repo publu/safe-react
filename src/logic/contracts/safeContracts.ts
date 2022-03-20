@@ -115,7 +115,7 @@ const getFallbackHandlerContractInstance = (web3: Web3, chainId: ChainId): Compa
   var contractAddress = fallbackHandlerDeployment?.networkAddresses[chainId]
 
   if (!contractAddress) {
-    contractAddress = '0x4f9b1def3a0f6747bf8c870a27d3decdf029100e'
+    contractAddress = '0xC5d654bcE1220241FCe1f0F1D6b9E04f75175452'
     //throw new Error(`FallbackHandler contract not found for chainId: ${chainId}`)
   }
 
@@ -135,10 +135,11 @@ const getMultiSendContractInstance = (web3: Web3, chainId: ChainId): MultiSend =
     getMultiSendCallOnlyDeployment({
       network: chainId.toString(),
     }) || getMultiSendCallOnlyDeployment()
-  const contractAddress = multiSendDeployment?.networkAddresses[chainId]
+  var contractAddress = multiSendDeployment?.networkAddresses[chainId]
 
   if (!contractAddress) {
-    throw new Error(`MultiSend contract not found for chainId: ${chainId}`)
+    contractAddress = '0xDEff67e9A02b4Ce60ff62F3CB5FFB41d48856285'
+    //throw new Error(`MultiSend contract not found for chainId: ${chainId}`)
   }
 
   return new web3.eth.Contract(multiSendDeployment?.abi as AbiItem[], contractAddress) as unknown as MultiSend
@@ -189,6 +190,7 @@ export const getMasterCopyAddressFromProxyAddress = async (proxyAddress: string)
     const res = await getSafeInfo(proxyAddress)
     masterCopyAddress = res.implementation.value
     if (!masterCopyAddress) {
+      masterCopyAddress = '0x3736aC8400751bf07c6A2E4db3F4f3D9D422abB2'
       console.error(`There was not possible to get masterCopy address from proxy ${proxyAddress}.`)
     }
   } catch (e) {
