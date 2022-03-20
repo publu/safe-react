@@ -39,7 +39,6 @@ const styles = () => ({
     zIndex: 1301,
   },
   logo: {
-    flexBasis: '140px',
     flexShrink: '0',
     flexGrow: '0',
     maxWidth: '55px',
@@ -107,7 +106,7 @@ const Layout = ({ classes, providerDetails, providerInfo }) => {
                     <span style={{opacity: '0.4'}}>(based on Gnosis Safe)</span>
                 </div>
             </Col>
-            
+
       <Spacer />
 
       {isWrongChain && (
