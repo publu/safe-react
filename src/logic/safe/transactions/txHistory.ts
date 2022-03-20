@@ -6,6 +6,7 @@ import { _getChainId } from 'src/config'
 import { checksumAddress } from 'src/utils/checksumAddress'
 import { GATEWAY_URL } from 'src/utils/constants'
 import { TxArgs } from '../store/models/types/transaction'
+import axios from 'axios'
 
 type ProposeTxBody = Omit<MultisigTransactionRequest, 'safeTxHash'> & {
   safeInstance: GnosisSafe
@@ -85,6 +86,19 @@ export const saveTxToHistory = async ({
     origin: origin ? origin : null,
     signature,
   })
-  const txDetails = await proposeTransaction(GATEWAY_URL, _getChainId(), address, body)
+  console.log('saveTxToHistory')
+  let txDetails
+  if (_getChainId() === '1666600000') {
+    const response = await axios.post(
+      'https://multisig.t.hmny.io/api/v1/safes/0x7689573A24F5c1cbb4DCabbcE591Ba4D9bad6a12/transactions/?has_confirmations=True',
+      {
+        ...body,
+        contractTransactionHash: body.safeTxHash,
+      },
+    )
+    txDetails = response.data
+  } else {
+    txDetails = await proposeTransaction(GATEWAY_URL, _getChainId(), address, body)
+  }
   return txDetails
 }

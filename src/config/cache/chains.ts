@@ -8,6 +8,7 @@ let chains: ChainInfo[] = []
 export const getChains = (): ChainInfo[] => chains
 
 export const loadChains = async () => {
+  console.log('loadChains')
   var { results = [] } = await getChainsConfig(GATEWAY_URL)
 
   const harmony = {
@@ -19,15 +20,15 @@ export const loadChains = async () => {
     description: '',
     rpcUri: {
       authentication: 'API_KEY_PATH',
-      value: 'https://api.harmony.one',
+      value: 'https://api.harmony.one/',
     },
     safeAppsRpcUri: {
       authentication: 'API_KEY_PATH',
-      value: 'https://api.harmony.one',
+      value: 'https://api.harmony.one/',
     },
     publicRpcUri: {
       authentication: 'API_KEY_PATH',
-      value: 'https://api.harmony.one',
+      value: 'https://api.harmony.one/',
     },
     blockExplorerUriTemplate: {
       address: 'https://etherscan.io/address/{{address}}',

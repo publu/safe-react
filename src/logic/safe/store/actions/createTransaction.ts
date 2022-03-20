@@ -91,7 +91,7 @@ export class TxSender {
   txHash: undefined | string
 
   // On transaction completion (either confirming or executing)
-  async onComplete(signature?: string, confirmCallback?: ConfirmEventHandler): Promise<void> {
+  async onComplete (signature?: string, confirmCallback?: ConfirmEventHandler): Promise<void> {
     const { txArgs, safeTxHash, txProps, dispatch, notifications, isFinalization } = this
 
     // Propose the tx to the backend
@@ -125,7 +125,7 @@ export class TxSender {
     dispatch(fetchTransactions(_getChainId(), txProps.safeAddress))
   }
 
-  async onError(err: Error & { code: number }, errorCallback?: ErrorEventHandler): Promise<void> {
+  async onError (err: Error & { code: number }, errorCallback?: ErrorEventHandler): Promise<void> {
     const { txArgs, isFinalization, from, txProps, dispatch, notifications, safeInstance, txId } = this
 
     errorCallback?.()
@@ -177,7 +177,7 @@ export class TxSender {
     }
   }
 
-  async onlyConfirm(): Promise<string | undefined> {
+  async onlyConfirm (): Promise<string | undefined> {
     const { txArgs, safeTxHash, txProps, safeVersion } = this
     const { wallet } = onboard().getState()
 
@@ -189,7 +189,7 @@ export class TxSender {
     )
   }
 
-  async sendTx(confirmCallback?: ConfirmEventHandler): Promise<string> {
+  async sendTx (confirmCallback?: ConfirmEventHandler): Promise<string> {
     const { txArgs, isFinalization, from, safeTxHash, txProps } = this
 
     const tx = isFinalization ? getExecutionTransaction(txArgs) : getApprovalTransaction(this.safeInstance, safeTxHash)
@@ -197,7 +197,7 @@ export class TxSender {
 
     return await tx
       .send(sendParams)
-      .once('transactionHash', (hash) => {
+      .once('transactionHash', hash => {
         this.txHash = hash
 
         if (isFinalization) {
@@ -208,14 +208,14 @@ export class TxSender {
       .then(({ transactionHash }) => transactionHash)
   }
 
-  async canSignOffchain(): Promise<boolean> {
+  async canSignOffchain (): Promise<boolean> {
     const { isFinalization, safeVersion } = this
-
+    // debugger
     const isSmartContract = await isSmartContractWallet(this.from)
     return checkIfOffChainSignatureIsPossible(isFinalization, isSmartContract, safeVersion)
   }
 
-  async submitTx(
+  async submitTx (
     confirmCallback?: ConfirmEventHandler,
     errorCallback?: ErrorEventHandler,
   ): Promise<string | undefined> {
@@ -251,13 +251,13 @@ export class TxSender {
     return this.txHash
   }
 
-  static async _isOnboardReady(): Promise<boolean> {
+  static async _isOnboardReady (): Promise<boolean> {
     // web3 is set on wallet connection
     const walletSelected = getWeb3() ? true : await onboard().walletSelect()
     return walletSelected && checkWallet()
   }
 
-  async prepare(dispatch: Dispatch, state: AppReduxState, txProps: RequiredTxProps): Promise<void> {
+  async prepare (dispatch: Dispatch, state: AppReduxState, txProps: RequiredTxProps): Promise<void> {
     if (!(await TxSender._isOnboardReady())) {
       throw Error('No wallet connection')
     }
@@ -285,6 +285,7 @@ export const createTransaction = (
   confirmCallback?: ConfirmEventHandler,
   errorCallback?: ErrorEventHandler,
 ): CreateTransactionAction => {
+  console.log({ props })
   return async (dispatch: Dispatch, getState: () => AppReduxState): Promise<void> => {
     const sender = new TxSender()
 
@@ -335,6 +336,7 @@ export const createTransaction = (
     // SafeTxHash acts as the unique ID of a tx throughout the app
     sender.safeTxHash = generateSafeTxHash(txProps.safeAddress, sender.safeVersion, sender.txArgs)
 
+    debugger
     // Start the creation
     sender.submitTx(confirmCallback, errorCallback)
   }

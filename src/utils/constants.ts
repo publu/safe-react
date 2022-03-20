@@ -41,4 +41,5 @@ const isProdGateway = () => {
 
 export const GATEWAY_URL =
   process.env.REACT_APP_GATEWAY_URL ||
+  // (IS_PRODUCTION || isProdGateway() ? 'https://multisig.t.hmny.io/api' : 'https://multisig-staging.hmny.io/api')
   (IS_PRODUCTION || isProdGateway() ? 'https://safe-client.gnosis.io' : 'https://safe-client.staging.gnosisdev.com')

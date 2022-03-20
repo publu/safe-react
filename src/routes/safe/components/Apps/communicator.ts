@@ -23,7 +23,7 @@ class AppCommunicator {
   private handlers = new Map<SDKMethods, MessageHandler>()
   private app: SafeApp
 
-  constructor(iframeRef: MutableRefObject<HTMLIFrameElement | null>, app: SafeApp) {
+  constructor (iframeRef: MutableRefObject<HTMLIFrameElement | null>, app: SafeApp) {
     this.iframeRef = iframeRef
     this.app = app
 
@@ -66,6 +66,7 @@ class AppCommunicator {
     if (validMessage && hasHandler) {
       const handler = this.handlers.get(msg.data.method)
       try {
+        console.log({msg})
         // @ts-expect-error Handler existence is checked in this.canHandleMessage
         const response = await handler(msg)
 

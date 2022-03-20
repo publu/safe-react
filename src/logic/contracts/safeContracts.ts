@@ -71,7 +71,7 @@ const getGnosisSafeContractInstance = (web3: Web3, chainId: ChainId): GnosisSafe
     //throw new Error(`GnosisSafe contract not found for chainId: ${chainId}`)
   }
 
-  return new web3.eth.Contract(safeSingletonDeployment?.abi as AbiItem[], contractAddress) as unknown as GnosisSafe
+  return (new web3.eth.Contract(safeSingletonDeployment?.abi as AbiItem[], contractAddress) as unknown) as GnosisSafe
 }
 
 /**
@@ -95,7 +95,7 @@ const getProxyFactoryContractInstance = (web3: Web3, chainId: ChainId): ProxyFac
     //throw new Error(`GnosisSafeProxyFactory contract not found for chainId: ${chainId}`)
   }
 
-  return new web3.eth.Contract(proxyFactoryDeployment?.abi as AbiItem[], contractAddress) as unknown as ProxyFactory
+  return (new web3.eth.Contract(proxyFactoryDeployment?.abi as AbiItem[], contractAddress) as unknown) as ProxyFactory
 }
 
 /**
@@ -119,10 +119,10 @@ const getFallbackHandlerContractInstance = (web3: Web3, chainId: ChainId): Compa
     //throw new Error(`FallbackHandler contract not found for chainId: ${chainId}`)
   }
 
-  return new web3.eth.Contract(
+  return (new web3.eth.Contract(
     fallbackHandlerDeployment?.abi as AbiItem[],
     contractAddress,
-  ) as unknown as CompatibilityFallbackHandler
+  ) as unknown) as CompatibilityFallbackHandler
 }
 
 /**
@@ -142,7 +142,7 @@ const getMultiSendContractInstance = (web3: Web3, chainId: ChainId): MultiSend =
     //throw new Error(`MultiSend contract not found for chainId: ${chainId}`)
   }
 
-  return new web3.eth.Contract(multiSendDeployment?.abi as AbiItem[], contractAddress) as unknown as MultiSend
+  return (new web3.eth.Contract(multiSendDeployment?.abi as AbiItem[], contractAddress) as unknown) as MultiSend
 }
 
 /**
@@ -155,7 +155,10 @@ export const getSignMessageLibAddress = (chainId: ChainId): string | undefined =
     getSignMessageLibDeployment({
       network: chainId.toString(),
     }) || getSignMessageLibDeployment()
-  const contractAddress = signMessageLibDeployment?.networkAddresses[chainId]
+  console.log({ signMessageLibDeployment })
+  let contractAddress = signMessageLibDeployment?.networkAddresses[chainId]
+
+  if (chainId === '1666600000') contractAddress = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506'
 
   if (!contractAddress) {
     throw new Error(`SignMessageLib contract not found for chainId: ${chainId}`)
@@ -175,13 +178,18 @@ export const getSignMessageLibContractInstance = (web3: Web3, chainId: ChainId):
     getSignMessageLibDeployment({
       network: chainId.toString(),
     }) || getSignMessageLibDeployment()
-  const contractAddress = signMessageLibDeployment?.networkAddresses[chainId]
+  let contractAddress = signMessageLibDeployment?.networkAddresses[chainId]
+
+  if (chainId === '1666600000') contractAddress = '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506'
 
   if (!contractAddress) {
     throw new Error(`SignMessageLib contract not found for chainId: ${chainId}`)
   }
 
-  return new web3.eth.Contract(signMessageLibDeployment?.abi as AbiItem[], contractAddress) as unknown as SignMessageLib
+  return (new web3.eth.Contract(
+    signMessageLibDeployment?.abi as AbiItem[],
+    contractAddress,
+  ) as unknown) as SignMessageLib
 }
 
 export const getMasterCopyAddressFromProxyAddress = async (proxyAddress: string): Promise<string | undefined> => {
@@ -269,12 +277,12 @@ export const estimateGasForDeployingSafe = async (
     data: proxyFactoryData,
     from: userAccount,
     to: proxyFactoryMaster.options.address,
-  }).then((value) => value * 2)
+  }).then(value => value * 2)
 }
 
 export const getGnosisSafeInstanceAt = (safeAddress: string, safeVersion: string): GnosisSafe => {
   const safeSingletonDeployment = getSafeContractDeployment({ safeVersion })
 
   const web3 = getWeb3()
-  return new web3.eth.Contract(safeSingletonDeployment?.abi as AbiItem[], safeAddress) as unknown as GnosisSafe
+  return (new web3.eth.Contract(safeSingletonDeployment?.abi as AbiItem[], safeAddress) as unknown) as GnosisSafe
 }

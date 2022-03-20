@@ -14,6 +14,8 @@ export const checkIfOffChainSignatureIsPossible = (
   isSmartContractWallet: boolean,
   safeVersion?: string,
 ): boolean => {
+  safeVersion = '1.3.0'
+  // debugger
   return (
     !isExecution &&
     !isSmartContractWallet &&
@@ -35,7 +37,7 @@ export const generateSignaturesFromTxConfirmations = (
   preApprovingOwner?: string,
 ): string => {
   let confirmationsMap =
-    confirmations?.map((value) => {
+    confirmations?.map(value => {
       return {
         signature: value.signature,
         owner: value.owner.toLowerCase(),
