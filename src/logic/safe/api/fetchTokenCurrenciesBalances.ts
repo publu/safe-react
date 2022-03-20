@@ -24,6 +24,7 @@ export const fetchTokenCurrenciesBalances = async ({
   trustedTokens = false,
 }: FetchTokenCurrenciesBalancesProps): Promise<SafeBalanceResponse> => {
   const address = checksumAddress(safeAddress)
+  console.log('fetchTokenCurrenciesBalances')
   return getBalances(GATEWAY_URL, _getChainId(), address, selectedCurrency, {
     exclude_spam: excludeSpamTokens,
     trusted: trustedTokens,

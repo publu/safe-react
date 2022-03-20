@@ -30,7 +30,8 @@ const extractMasterCopyInfo = (mc: MasterCopyReponse[number]): MasterCopy => {
 
 export const fetchMasterCopies = async (): Promise<MasterCopy[] | undefined> => {
   try {
-    const res = await getMasterCopies(GATEWAY_URL, _getChainId())
+  console.log('fetchMasterCopies')
+  const res = await getMasterCopies(GATEWAY_URL, _getChainId())
     return res.map(extractMasterCopyInfo)
   } catch (error) {
     console.error('Fetching data from master-copies errored', error)

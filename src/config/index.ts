@@ -41,10 +41,10 @@ export const _getChainId = (): ChainId => {
 }
 
 export const isValidChainId = (chainId: unknown): chainId is ChainId =>
-  getChains().some((chain) => chain.chainId === chainId)
+  getChains().some(chain => chain.chainId === chainId)
 
 export const getChainById = (chainId: ChainId): ChainInfo => {
-  return getChains().find((chain) => chain.chainId === chainId) || emptyChainInfo
+  return getChains().find(chain => chain.chainId === chainId) || emptyChainInfo
 }
 
 export const getChainInfo = (): ChainInfo => {
@@ -70,6 +70,7 @@ const formatRpcServiceUrl = ({ authentication, value }: RpcUri, TOKEN: string): 
 }
 
 export const getRpcServiceUrl = (rpcUri = getChainInfo().rpcUri): string => {
+  console.log({ INFURA_TOKEN })
   return formatRpcServiceUrl(rpcUri, INFURA_TOKEN)
 }
 

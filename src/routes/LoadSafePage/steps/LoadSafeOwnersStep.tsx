@@ -19,16 +19,17 @@ import NetworkLabel from 'src/components/NetworkLabel/NetworkLabel'
 
 export const loadSafeOwnersStepLabel = 'Owners'
 
-function LoadSafeOwnersStep(): ReactElement {
+function LoadSafeOwnersStep (): ReactElement {
   const loadSafeForm = useForm()
 
   const formValues = loadSafeForm.getState().values as LoadSafeFormValues
+  console.log(formValues);
   const ownerList = formValues[FIELD_SAFE_OWNER_LIST]
 
   return (
     <>
       <TitleContainer>
-        <Paragraph color="primary" noMargin size="lg" data-testid="load-safe-owners-step">
+        <Paragraph color='primary' noMargin size='lg' data-testid='load-safe-owners-step'>
           This Safe on <NetworkLabel /> has {ownerList.length} owners. Optional: Provide a name for each owner.
         </Paragraph>
       </TitleContainer>
@@ -39,21 +40,23 @@ function LoadSafeOwnersStep(): ReactElement {
           <Col xs={8}>ADDRESS</Col>
         </HeaderContainer>
         <Hairline />
-        <Block margin="md" padding="md">
-          {ownerList.map(({ address, name }, index) => {
+        <Block margin='md' padding='md'>
+          {ownerList.map((res, index) => {
+            const { address, name } = res
+            console.log({ res })
             const ownerFieldName = `owner-address-${address}`
             const ownerName = formValues[FIELD_SAFE_OWNER_ENS_LIST][address] || 'Owner Name'
 
             return (
-              <OwnerContainer key={address} data-testid="owner-row">
+              <OwnerContainer key={address} data-testid='owner-row'>
                 <Col xs={4}>
                   <FieldContainer
                     component={TextField}
                     initialValue={name}
                     name={ownerFieldName}
                     placeholder={ownerName}
-                    label="Owner Name"
-                    type="text"
+                    label='Owner Name'
+                    type='text'
                     validate={minMaxLength(0, 50)}
                     testId={`load-safe-owner-name-${index}`}
                   />
