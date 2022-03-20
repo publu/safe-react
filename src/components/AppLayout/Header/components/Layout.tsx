@@ -18,6 +18,7 @@ import WalletSwitch from 'src/components/WalletSwitch'
 import Divider from 'src/components/layout/Divider'
 import { shouldSwitchWalletChain } from 'src/logic/wallets/store/selectors'
 import { useSelector } from 'react-redux'
+import HarmonyLogo from 'src/assets/icons/icon-onewallet.svg'
 
 const styles = () => ({
   root: {
@@ -38,7 +39,6 @@ const styles = () => ({
     zIndex: 1301,
   },
   logo: {
-    flexBasis: '140px',
     flexShrink: '0',
     flexGrow: '0',
     maxWidth: '55px',
@@ -95,10 +95,17 @@ const Layout = ({ classes, providerDetails, providerInfo }) => {
   return (
     <Row className={classes.summary}>
       <Col className={classes.logo} middle="xs" start="xs">
-        <Link to={WELCOME_ROUTE}>
-          <Img alt="Gnosis Safe" height={36} src={SafeLogo} testId="heading-gnosis-logo" id="safe-logo" />
-        </Link>
-      </Col>
+                <Link to="/" style={{marginRight: 10}}>
+                    <Img alt="Harmony Multisig" height={36} src={HarmonyLogo} testId="heading-multisig-logo"/>
+                </Link>
+                <div style={{lineHeight: '18px'}}>
+                    <Link to="/" style={{textDecoration: 'none'}}>
+                        <span style={{fontSize: '22px', color: 'black'}}>Harmony Multisig</span>
+                    </Link>
+                    <br/>
+                    <span style={{opacity: '0.4'}}>(based on Gnosis Safe)</span>
+                </div>
+            </Col>
 
       <Spacer />
 
